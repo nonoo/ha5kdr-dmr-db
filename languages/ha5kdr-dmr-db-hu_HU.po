@@ -1,0 +1,44 @@
+msgid "Search"
+msgstr "Keresés"
+
+msgid "Callsign"
+msgstr "Hívójel"
+
+msgid "Name"
+msgstr "Név"
+
+msgid "CallsignID"
+msgstr "DMR ID"
+
+msgid "Country"
+msgstr "Ország"
+
+msgid "QRG"
+msgstr "Lejövő"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Color Code"
+msgstr "CC"
+
+msgid "Mixed"
+msgstr "Mix"
+
+msgid "CTCSS"
+msgstr "CTCSS"
+
+msgid "Net"
+msgstr "Net"
+
+msgid "City"
+msgstr "Város"
+
+msgid "County"
+msgstr "Megye"
+
+msgid "Latitude"
+msgstr "Lat"
+
+msgid "Longitude"
+msgstr "Lon"
