@@ -9,6 +9,8 @@
  * License: MIT
 */
 
+include_once(dirname(__FILE__) . '/ha5kdr-dmr-db-config.inc.php');
+
 function ha5kdr_dmr_db_users_generate() {
 	$out = '<img class="ha5kdr-dmr-db-loader" id="ha5kdr-dmr-db-users-loader" src="' . plugins_url('loader.gif', __FILE__) . '" />' . "\n";
 	$out .= '<form class="ha5kdr-dmr-db-search" id="ha5kdr-dmr-db-users-search">' . "\n";
@@ -29,7 +31,9 @@ function ha5kdr_dmr_db_users_generate() {
 	$out .= '				callsign: { title: "' . __('Callsign', 'ha5kdr-dmr-db') . '" },' . "\n";
 	$out .= '				callsignid: { title: "' . __('CallsignID', 'ha5kdr-dmr-db') . '" },' . "\n";
 	$out .= '				name: { title: "' . __('Name', 'ha5kdr-dmr-db') . '" },' . "\n";
-	$out .= '				country: { title: "' . __('Country', 'ha5kdr-dmr-db') . '" },' . "\n";
+	$out .= '				country: { title: "' . __('Country', 'ha5kdr-dmr-db') . '", display: function (data) {' . "\n";
+	$out .= '					return "<img title=\"" + data.record.country + "\" src=\"' . DMR_DB_FLAGS_URL . '" + data.record.country.replace(" ", "_") + ".png\" />";' . "\n";
+	$out .= '				}, width: "1%", listClass: "country" }' . "\n";
 	$out .= '			}' . "\n";
 	$out .= '		});' . "\n";
 	$out .= '		function dmr_db_users_update_showloader() {' . "\n";
@@ -82,7 +86,9 @@ function ha5kdr_dmr_db_repeaters_generate() {
 	$out .= '				net: { title: "' . __('Net', 'ha5kdr-dmr-db') . '" },' . "\n";
 	$out .= '				city: { title: "' . __('City', 'ha5kdr-dmr-db') . '" },' . "\n";
 	$out .= '				county: { title: "' . __('County', 'ha5kdr-dmr-db') . '", visibility: "hidden" },' . "\n";
-	$out .= '				country: { title: "' . __('Country', 'ha5kdr-dmr-db') . '" },' . "\n";
+	$out .= '				country: { title: "' . __('Country', 'ha5kdr-dmr-db') . '", display: function (data) {' . "\n";
+	$out .= '					return "<img title=\"" + data.record.country + "\" src=\"' . DMR_DB_FLAGS_URL . '" + data.record.country.replace(" ", "_") + ".png\" />";' . "\n";
+	$out .= '				}, width: "1%", listClass: "country" },' . "\n";
 	$out .= '				lat: { title: "' . __('Latitude', 'ha5kdr-dmr-db') . '", visibility: "hidden" },' . "\n";
 	$out .= '				lon: { title: "' . __('Longitude', 'ha5kdr-dmr-db') . '", visibility: "hidden" },' . "\n";
 	$out .= '			}' . "\n";

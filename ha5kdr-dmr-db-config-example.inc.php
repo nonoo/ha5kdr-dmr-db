@@ -7,4 +7,5 @@
 	define('DMR_DB_TABLE_REPEATERS',		'dmr-db-repeaters');
 	define('DMR_DB_USER_DATA_URL',			'http://dmr.ham-digital.net/user_by_call.php');
 	define('DMR_DB_REPEATER_DATA_URL',		'http://dmr.ham-digital.net/rptr_by_call.php');
+	define('DMR_DB_FLAGS_URL',				'http://ham-dmr.nonoo.hu/wp-content/themes/ham-dmr/images/flags/');
 ?>
