@@ -26,4 +26,4 @@ To show the repeaters table, insert this to a Wordpress page or post:
 <ha5kdr-dmr-db-repeaters />
 ```
 
-You can see a working example [here](http://www.ha5kdr.hu/projektek/dmr/db).
+You can see a working example [here](http://ham-dmr.hu/dmr-adatbazisok/).
