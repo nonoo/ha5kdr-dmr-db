@@ -11,21 +11,14 @@
 		return 1;
 	}
 
-	$conn = mysql_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD);
+	$conn = mysqli_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD, DMR_DB_NAME);
 	if (!$conn) {
 		echo "can't connect to mysql database!\n";
 		return 1;
 	}
 
-	$db = mysql_select_db(DMR_DB_NAME, $conn);
-	if (!$db) {
-		mysql_close($conn);
-		echo "can't connect to mysql database!\n";
-		return 1;
-	}
-
-	mysql_query("set names 'utf8'");
-	mysql_query("set charset 'utf8'");
+	$conn->query("set names 'utf8'");
+	$conn->query("set charset 'utf8'");
 
 	$rows = explode("\n", $dmrdata);
 
@@ -37,7 +30,7 @@
 	}
 
 	// Deleting old entries.
-	mysql_query('truncate table `' . DMR_DB_TABLE_USERS . '`');
+	$conn->query('truncate table `' . DMR_DB_TABLE_USERS . '`');
 
 	$i = 0;
 	foreach ($rows as $row) {
@@ -52,13 +45,13 @@
 		$name = $row_exploded[3];
 		$country = $row_exploded[4];
 
-		mysql_query('insert into `' . DMR_DB_TABLE_USERS . '` ' .
+		$conn->query('insert into `' . DMR_DB_TABLE_USERS . '` ' .
 			'(`callsign`, `callsignid`, `name`, `country`) values (' .
-			'"' . mysql_real_escape_string($callsign) . '", ' .
-			'"' . mysql_real_escape_string($callsignid) . '", ' .
-			'"' . mysql_real_escape_string($name) . '", ' .
-			'"' . mysql_real_escape_string($country) . '")');
+			'"' . $conn->escape_string($callsign) . '", ' .
+			'"' . $conn->escape_string($callsignid) . '", ' .
+			'"' . $conn->escape_string($name) . '", ' .
+			'"' . $conn->escape_string($country) . '")');
 	}
 
-	mysql_close($conn);
+	$conn->close();
 ?>

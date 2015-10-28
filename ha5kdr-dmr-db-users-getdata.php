@@ -8,21 +8,14 @@
 
 	include('ha5kdr-dmr-db-config.inc.php');
 
-	$conn = mysql_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD);
+	$conn = mysqli_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD, DMR_DB_NAME);
 	if (!$conn) {
 		echo "can't connect to mysql database!\n";
 		return;
 	}
 
-	$db = mysql_select_db(DMR_DB_NAME, $conn);
-	if (!$db) {
-		mysql_close($conn);
-		echo "can't connect to mysql database!\n";
-		return;
-	}
-
-	mysql_query("set names 'utf8'");
-	mysql_query("set charset 'utf8'");
+	$conn->query("set names 'utf8'");
+	$conn->query("set charset 'utf8'");
 
 	$searchfor = sanitize($_POST['searchfor']);
 	$searchtoks = explode(' ', $searchfor);
@@ -33,7 +26,7 @@
 		else
 			$search .= 'and ';
 
-		$searchtok = mysql_real_escape_string($searchtoks[$i]);
+		$searchtok = $conn->escape_string($searchtoks[$i]);
 		$search .= "(`callsign` like '%$searchtok%' or " .
 			"`callsignid` like '%$searchtok%' or " .
 			"`name` like '%$searchtok%' or " .
@@ -49,14 +42,14 @@
 		return;
 
 	// Getting record count
-	$result = mysql_query('select count(*) as `recordcount` from `' . DMR_DB_TABLE_USERS . '` ' . $search);
-	$row = mysql_fetch_array($result);
+	$result = $conn->query('select count(*) as `recordcount` from `' . DMR_DB_TABLE_USERS . '` ' . $search);
+	$row = $result->fetch_array();
 	$recordcount = $row['recordcount'];
 
-	$result = mysql_query('select * from `' . DMR_DB_TABLE_USERS . '` ' . $search . 'order by ' . mysql_real_escape_string($sorting) .
-		' limit ' . mysql_real_escape_string($startindex) . ',' . mysql_real_escape_string($pagesize));
+	$result = $conn->query('select * from `' . DMR_DB_TABLE_USERS . '` ' . $search . 'order by ' . $conn->escape_string($sorting) .
+		' limit ' . $conn->escape_string($startindex) . ',' . $conn->escape_string($pagesize));
 	$rows = array();
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+	while ($row = $result->fetch_array(MYSQLI_ASSOC))
 	    $rows[] = $row;
 
 	$jtableresult = array();
@@ -65,5 +58,5 @@
 	$jtableresult['Records'] = $rows;
 	echo json_encode($jtableresult);
 
-	mysql_close($conn);
+	$conn->close();
 ?>

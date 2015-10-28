@@ -11,21 +11,14 @@
 		return 1;
 	}
 
-	$conn = mysql_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD);
+	$conn = mysqli_connect(DMR_DB_HOST, DMR_DB_USER, DMR_DB_PASSWORD, DMR_DB_NAME);
 	if (!$conn) {
 		echo "can't connect to mysql database!\n";
 		return 1;
 	}
 
-	$db = mysql_select_db(DMR_DB_NAME, $conn);
-	if (!$db) {
-		mysql_close($conn);
-		echo "can't connect to mysql database!\n";
-		return 1;
-	}
-
-	mysql_query("set names 'utf8'");
-	mysql_query("set charset 'utf8'");
+	$conn->query("set names 'utf8'");
+	$conn->query("set charset 'utf8'");
 
 	$rows = explode("\n", $dmrdata);
 
@@ -37,7 +30,7 @@
 	}
 
 	// Deleting old entries.
-	mysql_query('truncate table `' . DMR_DB_TABLE_REPEATERS . '`');
+	$conn->query('truncate table `' . DMR_DB_TABLE_REPEATERS . '`');
 
 	$i = 0;
 	foreach ($rows as $row) {
@@ -61,23 +54,23 @@
 		$lat = $row_exploded[13];
 		$lon = $row_exploded[14];
 
-		mysql_query('insert into `' . DMR_DB_TABLE_REPEATERS . '` ' .
+		$conn->query('insert into `' . DMR_DB_TABLE_REPEATERS . '` ' .
 			'(`callsign`, `callsignid`, `qrg`, `shift`, `cc`, `mix`, `ctcss`, ' .
 			'`net`, `city`, `county`, `country`, `lat`, `lon`) values (' .
-			'"' . mysql_real_escape_string($callsign) . '", ' .
-			'"' . mysql_real_escape_string($callsignid) . '", ' .
-			'"' . mysql_real_escape_string($qrg) . '", ' .
-			'"' . mysql_real_escape_string($shift) . '", ' .
-			'"' . mysql_real_escape_string($cc) . '", ' .
-			'"' . mysql_real_escape_string($mix) . '", ' .
-			'"' . mysql_real_escape_string($ctcss) . '", ' .
-			'"' . mysql_real_escape_string($net) . '", ' .
-			'"' . mysql_real_escape_string($city) . '", ' .
-			'"' . mysql_real_escape_string($county) . '", ' .
-			'"' . mysql_real_escape_string($country) . '", ' .
-			'"' . mysql_real_escape_string($lat) . '", ' .
-			'"' . mysql_real_escape_string($lon) . '")');
+			'"' . $conn->escape_string($callsign) . '", ' .
+			'"' . $conn->escape_string($callsignid) . '", ' .
+			'"' . $conn->escape_string($qrg) . '", ' .
+			'"' . $conn->escape_string($shift) . '", ' .
+			'"' . $conn->escape_string($cc) . '", ' .
+			'"' . $conn->escape_string($mix) . '", ' .
+			'"' . $conn->escape_string($ctcss) . '", ' .
+			'"' . $conn->escape_string($net) . '", ' .
+			'"' . $conn->escape_string($city) . '", ' .
+			'"' . $conn->escape_string($county) . '", ' .
+			'"' . $conn->escape_string($country) . '", ' .
+			'"' . $conn->escape_string($lat) . '", ' .
+			'"' . $conn->escape_string($lon) . '")');
 	}
 
-	mysql_close($conn);
+	$conn->close();
 ?>
